@@ -1,0 +1,583 @@
+{
+	"info": {
+		"_postman_id": "c69d5ead-eeba-4a6f-8f36-a23904326cd0",
+		"name": "DemoProject_regress",
+		"description": "# DemoProject_regress\n\nThis collection contains regression test APIs for the Demo Project.  \nIt covers typical CRUD operations and user flows.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12540487",
+		"_collection_link": "https://blue-flare-305802.postman.co/workspace/e8326999-ae1b-4c49-84fc-bae4d054d16a/collection/12540487-c69d5ead-eeba-4a6f-8f36-a23904326cd0?action=share&source=collection_link&creator=12540487"
+	},
+	"item": [
+		{
+			"name": "CreateUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"hi pmm\")\r",
+							"postman.setNextRequest(\"SingleUser\");\r",
+							"//postman.setNextRequest(null);\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"const json_response = pm.response.json();\r",
+							"pm.test(\"Response body has correct name\", function () {\r",
+							"    pm.expect(json_response.name).to.eql(\"Manish Kasana\"); \r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"postman.setNextRequest(\"ListUsers\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"job\": \"{{job}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/{{resourceURL}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"{{resourceURL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListUsers",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 700ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(700);\r",
+							"});\r",
+							"\r",
+							"let json_response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"First user's last_name is not blank\", function () {\r",
+							"    pm.expect(json_response.data[0].last_name).to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check array length is 6\", function () {\r",
+							"    pm.expect(json_response.data.length).to.eql(6);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/{{resourceURL}}?page={{pageCount}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"{{resourceURL}}"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "{{pageCount}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SingleUser",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/{{resourceURL}}/{{singleUserFetchingID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"{{resourceURL}}",
+						"{{singleUserFetchingID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SingleUserNotFound",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/{{resourceURL}}/{{invalidSingleUserFetchingID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"{{resourceURL}}",
+						"{{invalidSingleUserFetchingID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListResource",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const json_response = pm.response.json();\r",
+							"\r",
+							"const expected_schema = {\r",
+							"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+							"  \"description\": \"\",\r",
+							"  \"type\": \"object\",\r",
+							"  \"properties\": {\r",
+							"    \"page\": { \"type\": \"number\" },\r",
+							"    \"per_page\": { \"type\": \"number\" },\r",
+							"    \"total\": { \"type\": \"number\" },\r",
+							"    \"total_pages\": { \"type\": \"number\" },\r",
+							"    \"data\": {\r",
+							"      \"type\": \"array\",\r",
+							"      \"uniqueItems\": true,\r",
+							"      \"minItems\": 1,\r",
+							"      \"items\": {\r",
+							"        \"required\": [\"id\", \"name\", \"year\", \"color\", \"pantone_value\"],\r",
+							"        \"properties\": {\r",
+							"          \"id\": { \"type\": \"number\" },\r",
+							"          \"name\": { \"type\": \"string\", \"minLength\": 1 },\r",
+							"          \"year\": { \"type\": \"number\" },\r",
+							"          \"color\": { \"type\": \"string\", \"minLength\": 1 },\r",
+							"          \"pantone_value\": { \"type\": \"string\", \"minLength\": 1 }\r",
+							"        }\r",
+							"      }\r",
+							"    },\r",
+							"    \"support\": {\r",
+							"      \"type\": \"object\",\r",
+							"      \"properties\": {\r",
+							"        \"url\": { \"type\": \"string\", \"minLength\": 1 },\r",
+							"        \"text\": { \"type\": \"string\", \"minLength\": 1 }\r",
+							"      },\r",
+							"      \"required\": [\"url\", \"text\"]\r",
+							"    }\r",
+							"  },\r",
+							"  \"required\": [\"page\", \"per_page\", \"total\", \"total_pages\", \"data\", \"support\"]\r",
+							"};\r",
+							"\r",
+							"// Validate schema\r",
+							"pm.test(\"Schema is valid\", function () {\r",
+							"    pm.expect(tv4.validate(json_response, expected_schema)).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/{{resourceUrlForListingResources}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"{{resourceUrlForListingResources}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListSingleResource",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/{{resourceUrlForListingResources}}/{{singleResourceID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"{{resourceUrlForListingResources}}",
+						"{{singleResourceID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"job\": \"{{updatedJob}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/{{resourceURL}}/{{singleUserFetchingID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"{{resourceURL}}",
+						"{{singleUserFetchingID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateUserUsingPatch",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"job\": \"{{updatedJob}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/{{resourceURL}}/{{singleUserFetchingID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"{{resourceURL}}",
+						"{{singleUserFetchingID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteUser",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/{{resourceURL}}/{{singleUserFetchingID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"{{resourceURL}}",
+						"{{singleUserFetchingID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RegisterUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer reqres-free-v1",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{registeredEmail}}\",\r\n    \"password\": \"{{registeredPwd}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/{{registerResourceURL}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"{{registerResourceURL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RegisterUnsucessful",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{notRegisteredEmail}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/{{registerResourceURL}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"{{registerResourceURL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LoginSuccessfull",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//pm.test(\"Cookie has HttpOnly flag\", () => {\r",
+							"//    const cookieHeader = pm.response.headers.get('Set-Cookie');\r",
+							"//    pm.expect(cookieHeader).to.include(\"HttpOnly\");\r",
+							"//});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{registeredEmail}}\",\r\n    \"password\": \"{{registeredPwd}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/{{loginResourceURL}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"{{loginResourceURL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LoginUnsuccesfull",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n     \"email\": \"{{notRegisteredEmail}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/{{loginResourceURL}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"{{loginResourceURL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DelayedResponse",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/{{resourceURL}}?delay={{delayParameterValue}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"{{resourceURL}}"
+					],
+					"query": [
+						{
+							"key": "delay",
+							"value": "{{delayParameterValue}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://reqres.in/signup",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/signup",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://reqres.in"
+		},
+		{
+			"key": "registerResourceURL",
+			"value": "api/register"
+		},
+		{
+			"key": "loginResourceURL",
+			"value": "api/login"
+		},
+		{
+			"key": "resourceUrlForListingResources",
+			"value": "api/unknown"
+		},
+		{
+			"key": "resourceURL",
+			"value": "api/users"
+		}
+	]
+}
