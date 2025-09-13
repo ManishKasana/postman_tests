@@ -24,7 +24,7 @@ jobs:
       - name: Run Postman Tests
         run: |
           newman run "DemoProject_regress Copy.postman_collection.json" \
-          --environment QA_Demo_Env.postman_environment.json \
+          --environment "QA_Demo_Env.postman_environment.json" \
           -r htmlextra \
           --reporter-htmlextra-export "./newman/report.html" \
           --reporter-htmlextra-title "DemoProject Regression Report"
