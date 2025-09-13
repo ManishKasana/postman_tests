@@ -1,4 +1,4 @@
-name: Run GoRest API Tests
+name: Run Postman Collection
 
 on:
   push:
@@ -6,11 +6,11 @@ on:
       - main
 
 jobs:
-  run-postman-tests:
+  postman-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Node.js
@@ -18,20 +18,20 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Newman and HTML reporter
+      - name: Install Newman + HTML Reporter
         run: npm install -g newman newman-reporter-htmlextra
 
-      - name: Run GoRest Postman Collection
+      - name: Run Postman Tests
         run: |
-          newman run "GoRestWebsiteForTesting.postman_collection.json" \
-          --environment "QA_Demo_Env.postman_environment.json" \
-          --env-var "token=${{ secrets.API_TOKEN }}" \
+          newman run GoRestWebsiteForTesting.postman_collection.json \
+          --environment QA_Demo_Env.postman_environment.json \
+          --env-var "tokken=${{ secrets.TOKKEN }}" \
           -r htmlextra \
           --reporter-htmlextra-export "./newman/report.html" \
-          --reporter-htmlextra-title "GoRest API Regression Report"
+          --reporter-htmlextra-title "Collection Run Report"
 
       - name: Upload HTML Report
         uses: actions/upload-artifact@v4
         with:
-          name: GoRest_Report
+          name: report
           path: ./newman/report.html
