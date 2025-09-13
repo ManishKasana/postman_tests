@@ -25,6 +25,7 @@ jobs:
         run: |
           newman run "DemoProject_regress Copy.postman_collection.json" \
           --environment "QA_Demo_Env.postman_environment.json" \
+          --env-var "token=${{ secrets.API_TOKEN }}" \
           -r htmlextra \
           --reporter-htmlextra-export "./newman/report.html" \
           --reporter-htmlextra-title "DemoProject Regression Report"
