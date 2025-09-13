@@ -23,9 +23,7 @@ jobs:
 
       - name: Run Postman Tests
         run: |
-          newman run DemoProject_regress.postman_collection.json \
-          --environment QA_Demo_Env.postman_environment.json \
-          --env-var "tokken=${{ secrets.TOKKEN }}" \
+          newman run Downloads/new_specs.postman_collection.json \
           -r htmlextra \
           --reporter-htmlextra-export "./newman/report.html" \
           --reporter-htmlextra-title "Collection Run Report"
