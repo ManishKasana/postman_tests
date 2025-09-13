@@ -1,0 +1,31 @@
+name: Run Postman Collection
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  postman-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Newman + HTML Reporter
+        run: npm install -g newman newman-reporter-htmlextra
+
+      - name: Run Postman Tests
+        run: |
+          newman run GoRestWebsiteForTesting.postman_collection.json \
+          --environment GoRestEnvironment.postman_environment.json \
+          --env-var "tokken=${{ secrets.TOKKEN }}" \
+          -r htmlextra \
+          --reporter-htmlextra-export "./newman/report.html" \
+          --reporter-htmlextra-title "Collection Run Report"
