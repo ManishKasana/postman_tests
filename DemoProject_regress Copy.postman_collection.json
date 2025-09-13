@@ -433,38 +433,6 @@
 			"response": []
 		},
 		{
-			"name": "RegisterUnsucessful",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "x-api-key",
-						"value": "reqres-free-v1",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"{{notRegisteredEmail}}\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseURL}}/{{registerResourceURL}}",
-					"host": [
-						"{{baseURL}}"
-					],
-					"path": [
-						"{{registerResourceURL}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "LoginSuccessfull",
 			"event": [
 				{
@@ -494,38 +462,6 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"email\": \"{{registeredEmail}}\",\r\n    \"password\": \"{{registeredPwd}}\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseURL}}/{{loginResourceURL}}",
-					"host": [
-						"{{baseURL}}"
-					],
-					"path": [
-						"{{loginResourceURL}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "LoginUnsuccesfull",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "x-api-key",
-						"value": "reqres-free-v1",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n     \"email\": \"{{notRegisteredEmail}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
