@@ -29,3 +29,9 @@ jobs:
           -r htmlextra \
           --reporter-htmlextra-export "./newman/report.html" \
           --reporter-htmlextra-title "Collection Run Report"
+
+      - name: Upload HTML Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: report.html
+          path: ./newman/report.html
