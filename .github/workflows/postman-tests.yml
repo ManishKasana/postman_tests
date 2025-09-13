@@ -33,5 +33,5 @@ jobs:
       - name: Upload HTML Report
         uses: actions/upload-artifact@v3
         with:
-          name: report.html
+          name: report
           path: ./newman/report.html
