@@ -23,13 +23,13 @@ jobs:
 
       - name: Run Postman Tests
         run: |
-          newman run Downloads/new_specs.postman_collection.json \
+          newman run DemoProject_regress.postman_collection.json \
           -r htmlextra \
           --reporter-htmlextra-export "./newman/report.html" \
-          --reporter-htmlextra-title "Collection Run Report"
+          --reporter-htmlextra-title "DemoProject Regression Report"
 
       - name: Upload HTML Report
         uses: actions/upload-artifact@v4
         with:
-          name: report
+          name: DemoProject_Report
           path: ./newman/report.html
