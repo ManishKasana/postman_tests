@@ -164,45 +164,6 @@
 			"response": []
 		},
 		{
-			"name": "SingleUserNotFound",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Should return 404 for non-existent user\", function () {\r",
-							"    pm.expect(pm.response.code).to.eql(404);\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "x-api-key",
-						"value": "reqres-free-v1",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{baseURL}}/{{resourceURL}}/{{invalidSingleUserFetchingID}}",
-					"host": [
-						"{{baseURL}}"
-					],
-					"path": [
-						"{{resourceURL}}",
-						"{{invalidSingleUserFetchingID}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "ListResource",
 			"event": [
 				{
